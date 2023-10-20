@@ -71,7 +71,7 @@ void err_dump(const char *fmt, ...)
 	va_list		ap;
 
 	va_start(ap, fmt);
-	err_doit(1, errrno, fmt, ap);
+	err_doit(1, errno, fmt, ap);
 	va_end(ap);
 	abort();	// dump core and terminate
 	exit(1);	// shouldn't get here
@@ -112,7 +112,7 @@ static void err_doit(int errnoflag, int error, const char *fmt, va_list ap)
 	vsnprintf(buf, MAXLINE-1, fmt, ap);
 	if (errnoflag)
 		snprintf(buf+strlen(buf), MAXLINE-strlen(buf)-1, ": %s",
-				sterror(error));
+				strerror(error));
 	strcat(buf, "\n");
 	fflush(stdout);		/* in case stdout and stderr are the same */
 	fputs(buf, stderr);
